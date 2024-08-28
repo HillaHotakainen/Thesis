@@ -14,7 +14,7 @@ print("staring model load")
 loaded_model = joblib.load(model_filename)
 print("model load done")
 
-# Start capturing video from the default camera (usually the built-in webcam)
+# Start capturing video from the default camera 
 cap = cv2.VideoCapture(0)
 
 while True:
@@ -31,10 +31,10 @@ while True:
         # Crop the face from the frame
         face_crop = frame[start_y:end_y, start_x:end_x]
 
-        # Resize the face for prediction (adjust the size as needed)
+        # Resize the face 
         face_resize = cv2.resize(face_crop, (100, 100))
 
-        # Flatten the face image for prediction
+        # Flatten the face image 
         face_flat = face_resize.flatten()
 
         # Perform emotion prediction
