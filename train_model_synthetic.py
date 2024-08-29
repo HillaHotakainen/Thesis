@@ -35,6 +35,7 @@ model = Pipeline([
 
 # Flatten the images for training
 X_train_flat = [img.flatten() for img in X_train]
+X_test_flat = [img.flatten() for img in X_test]
 
 # Train the model
 model.fit(X_train_flat, y_train)
@@ -43,3 +44,6 @@ model.fit(X_train_flat, y_train)
 model_filename = 'emotion_detection_model.pkl'
 joblib.dump(model, model_filename)
 print(f"Trained model saved to {model_filename}")
+
+np.savez('test_data.npz', X_test=X_test_flat, y_test=y_test)
+print("Test data saved for evaluation")
