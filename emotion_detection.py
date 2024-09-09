@@ -1,13 +1,8 @@
 import cv2
 import cvlib as cv
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.pipeline import Pipeline
 import joblib
-import pandas as pd
-import numpy as np
 
-model_filename = 'emotion_detection_model.pkl'
+model_filename = 'trained_model.pkl'
 
 # Load the trained model
 print("staring model load")
@@ -21,15 +16,19 @@ while True:
     # Capture frame-by-frame
     ret, frame = cap.read()
 
+    # Convert the frame to grayscale
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
     # Detect faces in the frame
     faces, confidences = cv.detect_face(frame)
+    
 
     # Loop through detected faces
     for face, confidence in zip(faces, confidences):
         (start_x, start_y, end_x, end_y) = face
 
         # Crop the face from the frame
-        face_crop = frame[start_y:end_y, start_x:end_x]
+        face_crop = gray_frame[start_y:end_y, start_x:end_x]
 
         # Resize the face 
         face_resize = cv2.resize(face_crop, (100, 100))
