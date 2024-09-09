@@ -16,7 +16,7 @@ def load_images_from_folder(folder):
             continue
         for img_name in os.listdir(emotion_folder):
             img_path = os.path.join(emotion_folder, img_name)
-            img = cv2.imread(img_path)
+            img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
             if img is not None:
                 img = cv2.resize(img, (100, 100))
                 data['image'].append(img)
@@ -32,14 +32,14 @@ print("Loaded image data")
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(train_data['image'], train_data['emotion'], test_size=0.2, random_state=42)
 
-# Build a simple pipeline with a classifier
-model = Pipeline([
-    ('classifier', RandomForestClassifier(n_estimators=100))
-])
-
 # Flatten the images for training
 X_train_flat = [img.flatten() for img in X_train]
 X_test_flat = [img.flatten() for img in X_test]
+
+# Build a simple pipeline with a classifier
+model = Pipeline([
+    ('classifier', RandomForestClassifier(n_estimators=100, class_weight="balanced"))
+])
 
 # Train the model (using RandomForestClassifier)
 model.fit(X_train_flat, y_train)
@@ -51,4 +51,4 @@ print(f"Trained model saved to {model_filename}")
 
 real_data="real_data.npz"
 np.savez(real_data, X_test=X_test_flat, y_test=y_test)
-print("Test data saved as {test_data}")
+print("Test data saved as {real_data}")
