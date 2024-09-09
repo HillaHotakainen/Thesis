@@ -1,11 +1,12 @@
 import joblib
 import numpy as np
+import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import seaborn as sea
 import matplotlib.pyplot as matp
 
 # modify this to decide what file you use
-model_filename = 'emotion_detection_model.pkl'
+model_filename = 'trained_model.pkl'
 model = joblib.load(model_filename)
 print(f"Loaded model from {model_filename}")
 
@@ -22,9 +23,13 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy:.2f}")
 
-# Generate a classification report
-print("\nClassification Report:")
-print(classification_report(y_test, y_pred))
+# Creating a classification report
+report = classification_report(y_test, y_pred, output_dict=True)
+report_df = pd.DataFrame(report).transpose()
+matp.figure(figsize=(10, 6))
+sea.heatmap(report_df[['precision', 'recall', 'f1-score']], annot=True, fmt='.2f', cmap='Blues', linewidths=.5)
+matp.title('Classification Report')
+matp.show()
 
 # Creating confusion matrix
 cm = confusion_matrix(y_test, y_pred)
