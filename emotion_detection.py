@@ -31,7 +31,7 @@ while True:
         face_crop = gray_frame[start_y:end_y, start_x:end_x]
 
         # Resize the face 
-        face_resize = cv2.resize(face_crop, (100, 100))
+        face_resize = cv2.resize(face_crop, (300, 300))
 
         # Flatten the face image 
         face_flat = face_resize.flatten()

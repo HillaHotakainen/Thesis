@@ -11,7 +11,7 @@ model = joblib.load(model_filename)
 print(f"Loaded model from {model_filename}")
 
 # Load the test data
-data = np.load('real_data.npz', allow_pickle=True)
+data = np.load('test_data.npz', allow_pickle=True)
 X_test = data['X_test']
 y_test = data['y_test']
 print("Loaded test data")
